@@ -24,30 +24,20 @@ ListNode* removeDups(ListNode* head){
     ListNode* current = head;
     ListNode* prev = NULL;
     while(true){
-        std::cout << "cur: " << current->data;
-
         // check if the value exists
         if (count.find(current->data) == count.end()) {
-            std::cout << " (new value" << std::endl;
             // not exist
             count[current->data] = 1;
             prev = current;
-            // std::cout << "assess cur->next " << std::endl;
             current = current->next;
-            // std::cout << "cur->next = " << current->next << std::endl;
-            // std::cout << "finish cur->next " << std::endl;
         }
         else {
-            std::cout << " (dup value" << std::endl;
             // duplicate, remove the node from the linked list
             prev->next = current->next; // update the previous `next` to the next node
             ListNode* tmp = current;
             current = current->next;
             delete tmp;
         }
-
-        // std::cout << "cur = " << current << ", cur->next = " << current->next << std::endl;
-        std::cout << "prev = " << prev << ", prev->next = " << prev->next << std::endl;
 
         if ( current == NULL ){
             break;
@@ -72,7 +62,6 @@ void printList(ListNode* head) {
 void deleteList(ListNode* head){
     ListNode* cur_node = head;
     while(true){
-        // std::cout << "delete " << cur_node->data << std::endl;
         ListNode* tmp = cur_node;
         cur_node = cur_node->next;
         delete tmp;
@@ -113,7 +102,7 @@ int main() {
     list1 = removeDups(list1);
     printList(list1);
 
-    std::cout << "Linked list 2" << std::endl;
+    std::cout << "\nLinked list 2" << std::endl;
     printList(list2);
     std::cout << "Linked list 2 (removeDups)" << std::endl;
     list2 = removeDups(list2);
