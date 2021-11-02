@@ -4,42 +4,41 @@
 * - Push, pop and min should all operate in 0(1) time. 
 */
 
-#include <vector>
+#include <stack>
 #include <iostream>
 
 using namespace std;
 
 class MinStack {
     private:
-        vector<int> data_stack;
-        vector<int> min_stack;
+        stack<int> data_stack;
+        stack<int> min_stack;
 
 	public:
 		MinStack() {
 		}
 		
 		void push(int x) {
-            data_stack.push_back(x);
+			data_stack.push(x);
             // check if the input smaller than the min_top
-            if (min_stack.size() == 0 || x < min_stack.back()) {
-				min_stack.push_back(x);
+            if (min_stack.empty() || x <= min_stack.top()) {
+				min_stack.push(x);
 			}
 		}
 		
 		void pop() {
-			// int pop_value = data_stack.back();
-			if (data_stack.back() == min_stack.back()) {
-				min_stack.pop_back();
+			if (data_stack.top() == min_stack.top()) {
+				min_stack.pop();
 			}
-			data_stack.pop_back();
+			data_stack.pop();
 		}
 		
 		int top() {
-			return data_stack.back();
+			return data_stack.top();
 		}
 		
 		int getMin() {
-			return min_stack.back();
+			return min_stack.top();
 		}
 };
 
