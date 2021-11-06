@@ -13,13 +13,13 @@ using namespace std;
 int updateBits(int n, int m, int i, int j){
     // will `unsigned int` be better?
     int insert_m = m << i; 
-    unsigned int clear_mask = UINT32_MAX;
+    unsigned int clear_mask = UINT32_MAX; // or ~0
     int n_update = n;
     
     clear_mask = clear_mask << (j+1); // fill zeros
     for (size_t b = 0; b < i; b++) { // fill the postfix 1s
         clear_mask += 1 << b;
-    }
+    } // or += ((i << i) - 1)
 
     n_update &= clear_mask;
     n_update += insert_m;
