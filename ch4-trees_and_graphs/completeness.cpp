@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -42,6 +43,34 @@ public:
         
         
         return (check(root->left, 2*index+1, count) && check(root->right, 2*index+2, count));
+    }
+
+    bool bfs_check(TreeNode* root) {
+        queue<TreeNode*> q;
+        bool exist_null = false;
+        q.push(root);
+
+        while (!q.empty()){
+            TreeNode* p = q.front();
+            q.pop();
+
+            // there exists null in the tree
+            if (p == nullptr)
+                exist_null = true;
+            else {
+                // we meet the null again; 
+                // there should not be multiple null in a complete tree
+                if (exist_null)
+                    return false;
+                
+                // add the child nodes
+                q.push(p->left);
+                q.push(p->right);
+            }
+        }
+
+        // the bfs is done = there is only one null in the tree
+        return true;
     }
 };
 
