@@ -17,7 +17,7 @@ public:
         cout << endl;
     }
 
-    int sumSubarrayMins(vector<int>& arr) {
+    int sumSubarrayMins_bf(vector<int>& arr) {
         auto min = [](vector<int>& a) {
             int min = INT_MAX;
             for (size_t i = 0; i < a.size(); i++) {
@@ -40,11 +40,30 @@ public:
 
         return sum;
     }
+
+    int sumSubarrayMins_dp(vector<int>& arr) {
+        int mod = 1e9 + 7, sum = 0;
+        vector<int> dp(arr.size(), INT_MAX);
+
+        // window size
+        for (int w = 1; w <= arr.size(); w++) {
+            // each sub-array (start index)
+            for (size_t i = 0; i+w-1 < arr.size(); i++) {
+                int min_sum = min(dp[i], arr[i+w-1]);
+                dp[i] = min_sum;
+
+                sum += min_sum;
+                sum %= mod;
+            }
+        }
+
+        return sum;
+    }
 };
 
 int main() {
     vector<int> arr{3,1,2,4};
-    Solution().sumSubarrayMins(arr);
+    cout << Solution().sumSubarrayMins_dp(arr) << endl; 
 
     return 0;
 }
