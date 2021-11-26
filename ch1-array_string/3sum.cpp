@@ -5,12 +5,14 @@
 
 #include <vector>
 #include <map>
+#include <algorithm>
+#include <iostream>
 
 using namespace std;
 
 class Solution {
 public:
-    vector<vector<int>> threeSum(vector<int>& nums) {
+    vector<vector<int>> threeSum_bf(vector<int>& nums) {
         if (nums.size() < 3)
             return vector<vector<int>>();
         
@@ -53,10 +55,52 @@ public:
         
         return result;
     }
+
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        // sort
+        sort(nums.begin(), nums.end());
+
+        // double pointer
+        vector<vector<int>> result;
+        map<vector<int>, bool> exist;
+        int prev_mid = INT32_MAX;
+        for (size_t i = 1; i < nums.size(); i++) {
+            int left = 0, right = nums.size()-1;
+            vector<int> prev_sol;
+            while (left < i && right > i) {
+                int sum = nums[left]+nums[i]+nums[right];
+                if (sum == 0) {
+                    vector<int> sol{nums[left], nums[i], nums[right]};
+                    exist[sol] = true;
+                    left++;
+                }
+                else if (sum < 0) {
+                    left++;
+                }
+                else {
+                    right--;
+                }
+            }
+        }
+        
+        for (auto iter = exist.begin(); iter != exist.end(); iter++) {
+            result.push_back(iter->first);
+        }
+
+        return result;
+    }
+
+    void printArray(vector<int> const &nums) {
+        cout << "[nums] ";
+        for (int n : nums) cout << n << " ";
+        cout << endl;
+    }
 };
 
 
 int main() {
     vector<int> data = {-1,0,1,2,-1,-4};
+    Solution().threeSum(data);
 
+    return 0;
 }
