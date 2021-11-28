@@ -56,37 +56,37 @@ public:
         return result;
     }
 
-    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> threeSum(vector<int>& nums) {
         // sort
         sort(nums.begin(), nums.end());
 
         // double pointer
         vector<vector<int>> result;
-        map<vector<int>, bool> exist;
-        int prev_mid = INT32_MAX;
-        for (size_t i = 1; i < nums.size(); i++) {
-            int left = 0, right = nums.size()-1;
-            vector<int> prev_sol;
-            while (left < i && right > i) {
-                int sum = nums[left]+nums[i]+nums[right];
+        for (size_t i = 0; i < nums.size(); i++) {
+            if (i>0 && nums[i] == nums[i-1])
+                continue;
+            
+            int left = i+1, right = nums.size()-1;
+            while (left < right) {
+                if (left > i+1 && nums[left] == nums[left-1]) {
+                    left++; continue;
+                }
+                if (right < nums.size()-1 && nums[right] == nums[right+1]) {
+                    right--; continue;
+                }
+                
+                int sum = nums[i]+nums[left]+nums[right];
                 if (sum == 0) {
                     vector<int> sol{nums[left], nums[i], nums[right]};
-                    exist[sol] = true;
+                    result.push_back(sol);
                     left++;
                 }
-                else if (sum < 0) {
+                else if (sum < 0)
                     left++;
-                }
-                else {
+                else
                     right--;
-                }
             }
         }
-        
-        for (auto iter = exist.begin(); iter != exist.end(); iter++) {
-            result.push_back(iter->first);
-        }
-
         return result;
     }
 
