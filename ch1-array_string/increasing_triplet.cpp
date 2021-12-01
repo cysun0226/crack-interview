@@ -10,24 +10,43 @@ using namespace std;
 
 class Solution {
 public:
-    bool increasingTriplet(vector<int>& nums) {
-        // find the smallest
-        int smallest = INT32_MAX, smallest_idx = 0;
+    bool increasingTriplet_monostack(vector<int>& nums) {
         for (size_t i = 0; i < nums.size(); i++) {
-            if (nums[i] < smallest) {
-                smallest = nums[i];
-                smallest_idx = i;
+            // find the increasing triplet
+            vector<int> increasing_stack = {nums[i]};
+            for (size_t j = i+1; j < nums.size(); j++) {
+                if (nums[j] > increasing_stack.back()) {
+                    increasing_stack.push_back(nums[j]);
+                    
+                    if (increasing_stack.size() >= 3)
+                        return true;
+                }
+                // find the smaller middle element
+                else if (increasing_stack.size() == 2 && nums[j] < increasing_stack[1] && nums[j] > increasing_stack[0]) {
+                    increasing_stack.pop_back();
+                    increasing_stack.push_back(nums[j]);
+                }
             }
         }
-
-        // find the increasing triplet
-        vector<int> increasing_stack = {smallest};
-        for (size_t i = smallest_idx; i < nums.size(); i++) {
-            if (nums[i] > increasing_stack.back()) {
-                increasing_stack.push_back(nums[i]);
-            }
-        }
-
-       return (increasing_stack.size() >= 3);
+        return false;
     }
+
+    bool increasingTriplet(vector<int>& nums) {
+        int min = INT32_MAX, mid = INT32_MAX;
+        for (int n : nums) {
+            if (n < min) min = n;
+            else if (n != min && n < mid) mid = n;
+            else if (n > mid) return true;
+        }
+        return false;
+    }
+
+
 };
+
+int main() {
+    vector<int> test = {1,5,0,4,1,3};
+    Solution().increasingTriplet(test);
+    
+    return 0;
+}
