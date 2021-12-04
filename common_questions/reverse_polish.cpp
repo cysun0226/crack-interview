@@ -23,6 +23,12 @@ public:
         };
 
         for (string s : tokens) {
+            // convert the string to integers
+            if (s.size() > 1) {
+                stack.push_back(stoi(s));
+                continue;
+            }
+
             int v1, v2;
             switch (s[0]) {
                 // arithmetic operations
@@ -43,7 +49,7 @@ public:
                     stack.push_back(v1/v2);
                     break;
                 
-                // convert the string to integers
+                // single digit
                 default:
                     stack.push_back(stoi(s));
                     break;
