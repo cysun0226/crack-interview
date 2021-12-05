@@ -15,5 +15,14 @@ public:
             s[s.size()-1-i] = tmp;
         }
     }
+
+    void doublePointer(char* s, int sSize) {
+        char *end = s + sSize - 1, tmp;
+        while (s < end) {
+            tmp = *s;
+            *s++ = *end;
+            *end-- = tmp;
+        }
+    }
 };
 
