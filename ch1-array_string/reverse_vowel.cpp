@@ -11,6 +11,7 @@ using namespace std;
 
 class Solution {
 public:
+    /* save all the found vowels */
     string reverseVowels(string s) {
         vector<pair<char, int>> vowels;
 
@@ -33,6 +34,27 @@ public:
         // fill the reversed vowels
         for (auto p : vowels) {
             s[p.second] = p.first;
+        }
+        
+        return s;
+    }
+
+    /* reverse by double pointers */
+    string reverseVowels_doublePointer(string s) {
+        // find the vowels
+        set<char> v_set = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
+        int left = 0, right = s.size()-1;
+        while (left < right) {
+            while (left < right && v_set.find(s[left]) == v_set.end()) left++;
+            while (left < right && v_set.find(s[right]) == v_set.end()) right--;
+            
+            // swap the value of two pointers
+            char tmp = s[left];
+            s[left] = s[right];
+            s[right] = tmp;
+
+            left++;
+            right--;
         }
         
         return s;
